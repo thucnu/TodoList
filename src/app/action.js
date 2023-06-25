@@ -11,3 +11,10 @@ export const removeValue = (value) => {
   };
 };
 
+export const changeStatus = (value) => {
+  return {
+    type: "CHANGE_STATUS",
+    payload: value,
+  }
+}
+

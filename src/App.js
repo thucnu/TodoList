@@ -4,15 +4,9 @@ import TaskList from "./components/TaskList";
 
 function App() {
   return (
-    <div>
-      <container>
-        <div className="d-flex justify-content-center pt-5">
+    <div className='container'>
           <Task />
-        </div>
-        <div className="d-flex justify-content-center">
           <TaskList />
-        </div>
-      </container>
     </div>
   );
 }

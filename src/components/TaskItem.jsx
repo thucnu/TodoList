@@ -1,52 +1,43 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { removeValue } from "../app/action";
+import React from "react";
+import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
+import {removeValue, changeStatus} from "../app/action";
 
-export default function TaskItem() {
-  const [status, setStatus] = useState([]);
-  const data = useSelector((state) => state.data.submittedData);
+TaskItem.propTypes = {
+    item: PropTypes.object,
+    index: PropTypes.number,
+}
 
-  const dispatch = useDispatch();
+export default function TaskItem({item, index}) {
+    const dispatch = useDispatch();
 
-  const handleDelete = (item) => {
-    dispatch(removeValue(item));
-  };
+    const handleDelete = (value) => {
+        dispatch(removeValue(value));
+    };
 
-  const handleCompleted = (index) => {
-    setStatus((prevState) => {
-      const updatedStatus = [...prevState];
-      updatedStatus[index] = !updatedStatus[index];
-      return updatedStatus;
-    });
-  };
+    const handleCompleted = (value) => {
+        dispatch(changeStatus(value));
+    };
 
-  return (
-    <div className="">
-      {data
-        ? data.map((item, index) => {
-            return (
-              <li
-                type="button"
-                key={index}
-                className="list-group-item d-flex justify-content-between align-items-center"
-              >
-                {item}
-                <div className="">
-                  <span onClick={() => handleCompleted(index)}>
+    return (
+        <li
+            type="button"
+            key={index}
+            className="list-group-item d-flex justify-content-between align-items-center"
+        >
+            {item.value}
+            <div className="">
+                  <span onClick={() => handleCompleted(item.value)}>
                     <i
-                      className={`fa ${
-                        status[index] ? "fa-check-circle" : "fa-circle"
-                      }  mx-2`}
+                        className={`fa ${
+                            item.status ? "fa-check-circle" : "fa-circle"
+                        }  mx-2`}
                     ></i>
                   </span>
-                  <span onClick={() => handleDelete(item)}>
+                <span onClick={() => handleDelete(item.value)}>
                     <i className="fa fa-trash" aria-hidden="true"></i>
                   </span>
-                </div>
-              </li>
-            );
-          })
-        : null}
-    </div>
-  );
+            </div>
+        </li>
+    );
 }
